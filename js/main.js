@@ -15,30 +15,134 @@ window.onload = function() {
     
     var game = new Phaser.Game( 800, 600, Phaser.AUTO, 'game', { preload: preload, create: create, update: update } );
     
-    function preload() {
+    function preload() 
+    {
         // Load an image and call it 'logo'.
-        game.load.image( 'logo', 'assets/phaser.png' );
+        game.load.image('background','assets/background.png');
+        game.load.spritesheet( 'player', 'assets/player.png',21,50);
+        game.load.image('person','assets/person.png');
+        game.load.image('pitfall','assets/pitfall.png');
+        game.load.image('pitfalltwo','assets/pitfalltwo.png');
+        game.load.image('win','assets/win.png');
+        game.load.image('lose','assets/lose.png');
+        game.load.audio('music','assets/Song of Unhealing.mp3');
     }
     
-    var bouncy;
+    var player;
+    var background;
+    var pitfalls;
+    var person;
+    var cursors;
+    var win;
+    var lose;
+    var fakes;
+    var music;
     
     function create() {
+    	music = game.add.audio('music');
+    	music.play();
         // Create a sprite at the center of the screen using the 'logo' image.
-        bouncy = game.add.sprite( game.world.centerX, game.world.centerY, 'logo' );
+        background = game.add.sprite(0,0,'background');
         // Anchor the sprite at its center, as opposed to its top-left corner.
         // so it will be truly centered.
-        bouncy.anchor.setTo( 0.5, 0.5 );
-        
+        player = game.add.sprite(10, game.world.height - 50, 'player' );
+        person = game.add.sprite(700, 10, 'person' );
+        game.physics.enable( person , Phaser.Physics.ARCADE );
         // Turn on the arcade physics engine for this sprite.
-        game.physics.enable( bouncy, Phaser.Physics.ARCADE );
+        game.physics.enable( player , Phaser.Physics.ARCADE );
         // Make it bounce off of the world bounds.
-        bouncy.body.collideWorldBounds = true;
+        player.body.collideWorldBounds = true;
         
+        
+        pitfalls = game.add.group();
+        pitfalls.enableBody = true;
+        
+        var pit = pitfalls.create(50, game.world.height - 100, 'pitfall');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(50, 400, 'pitfall');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(50, 200, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(50, 300, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(150, 300, 'pitfall');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(150, 100, 'pitfall');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(150, 0, 'pitfall');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(150, 0, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(250, 0, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(350, 0, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(450, 0, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(550, 0, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(650, 0, 'pitfall');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(550, 100, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(450, 100, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(250, 100, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(250, 100, 'pitfall');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(250, 200, 'pitfall');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(250, 300, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(350, 300, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(450, 300, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(550, 300, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(750, 300, 'pitfall');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(750, 400, 'pitfall');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(650, 400, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(550, 400, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(450, 400, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(350, 400, 'pitfalltwo');
+        pit.body.immovable = true;
+         var pit = pitfalls.create(250, 400, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(150, 400, 'pitfall');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(150, 500, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(250, 500, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(350, 500, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(450, 500, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(550, 500, 'pitfalltwo');
+        pit.body.immovable = true;
+        var pit = pitfalls.create(650, 500, 'pitfalltwo');
+        pit.body.immovable = true;
+        
+        fakes = game.add.group();
+        fakes.enableBody = true;
+        var fake = fakes.create(50,300,'pitfall');
+        fake.body.immovable = true;
+        var fake = fakes.create(50,200,'pitfall');
+        fake.body.immovable = true;
+        var fake = fakes.create(350,100,'pitfalltwo');
+        fake.body.immovable = true;
+        var fake = fakes.create(650,300,'pitfalltwo');
+        fake.body.immovable = true;
         // Add some text using a CSS style.
         // Center it in X, and position its top 15 pixels from the top of the world.
-        var style = { font: "25px Verdana", fill: "#9999ff", align: "center" };
-        var text = game.add.text( game.world.centerX, 15, "Build something awesome.", style );
-        text.anchor.setTo( 0.5, 0.0 );
+        cursors = game.input.keyboard.createCursorKeys();
     }
     
     function update() {
@@ -47,6 +151,53 @@ window.onload = function() {
         // in X or Y.
         // This function returns the rotation angle that makes it visually match its
         // new trajectory.
-        bouncy.rotation = game.physics.arcade.accelerateToPointer( bouncy, this.game.input.activePointer, 500, 500, 500 );
-    }
+        game.physics.arcade.overlap(player, person, win, null, this);
+     	game.physics.arcade.overlap(player, pitfalls, lose, null, this);
+        
+        player.body.velocity.x = 0;
+        player.body.velocity.y = 0;
+        
+    if (cursors.left.isDown)
+    {
+        //  Move to the left
+        player.frame = 3;
+        player.body.velocity.x = -150;
+        
+ 	}
+    else if (cursors.right.isDown)
+    {
+        //  Move to the right
+        player.frame = 2;
+        player.body.velocity.x = 150;
+        
+	}
+	else if (cursors.up.isDown)
+    {
+        //  Move to the left
+        player.frame = 1;
+        player.body.velocity.y = -150;
+        
+ 	}
+    else if (cursors.down.isDown)
+    {
+        //  Move to the right
+        player.frame = 0;
+        player.body.velocity.y = 150;
+        
+	}
+        
+       }
+   function lose()
+   {
+   player.kill();
+   game.add.sprite(0,0,'lose');
+   game.paused = true;
+   }
+   function win()
+   {
+   player.kill();
+   game.add.sprite(0,0,'win');
+   person.kill();
+   game.paused = true;
+   }
 };
